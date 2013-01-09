@@ -22,8 +22,7 @@ Jenkins plugins in Ruby (jRuby).
 
 [jrb]: https://github.com/jenkinsci/jenkins.rb
 
-Prerequisites
-~~~~~~~~~~~~~
+### Prerequisites
 
 It's set up for rbenv, so if you don't have that install it. On a Mac I
 suggest using Homebrew:
@@ -38,8 +37,7 @@ On Debian or Ubuntu you do:
 
 Anything else is up to you to figure out.
 
-Ruby and Gems
-~~~~~~~~~~~~~
+### Ruby and Gems
 
 Install jruby:
 
@@ -54,8 +52,7 @@ Install the rest of the required gems:
 
     bundle install
 
-Building and Testing
-~~~~~~~~~~~~~~~~~~~~
+### Building and Testing
 
 To build we use jenkins.rb's `jpi` utility:
 
