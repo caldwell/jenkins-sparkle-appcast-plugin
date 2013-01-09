@@ -1,0 +1,49 @@
+<%
+   f = taglib("/lib/form")
+   f.block do
+%>
+
+    <table style="margin-left: 30px;">
+      <%
+         f.entry :title => 'Output Directory',
+                 :field => :output_directory,
+                 :description => 'Where to build the symlink tree and appcast rss file.' do
+           f.textbox :clazz => 'required', :default => ''
+         end
+
+         f.entry :title => 'URL Base',
+                 :field => :url_base,
+                 :description => 'Where the feed url will be (eg. "http://example.com/some_directory")' do
+           f.textbox :clazz => 'required', :default => 'http://example.com/some_directory'
+         end
+
+         f.entry :title => 'Appcast Filename',
+                 :field => :rss_filename,
+                 :description => 'Filename for the generated Appcast (if left blank it will use the project name plus ".rss"")' do
+           f.textbox :clazz => 'optional', :default => ''
+         end
+
+         f.entry :title => 'RSS Author',
+                 :field => :author,
+                 :description => 'Author field in the Appcast RSS. Not shown by Sparkle.' do
+           f.textbox :clazz => 'optional', :default => ''
+         end
+
+         f.entry :title => 'RSS Title',
+                 :field => :title,
+                 :description => 'Title field in the Appcast RSS. Not shown by Sparkle.' do
+           f.textbox :clazz => 'optional', :default => ''
+         end
+
+         f.entry :title => 'RSS Description',
+                 :field => :description,
+                 :description => 'Description field in the Appcast RSS. Not shown by Sparkle.' do
+           f.textbox :clazz => 'optional', :default => ''
+         end
+
+      %>
+    </table>
+
+<%
+   end
+%>
