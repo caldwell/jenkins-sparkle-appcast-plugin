@@ -36,13 +36,14 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
 
   display_name "Publish Sparkle Appcast (RSS)"
 
-  attr_reader :url_base, :output_directory, :author, :title, :description, :rss_filename
+  attr_reader :url_base, :output_directory, :author, :title, :description, :rss_filename, :private_key
 
   # Invoked with the form parameters when this extension point
   # is created from a configuration screen.
   def initialize(attrs = {})
     attrs.each { |k, v| v = nil if v == ""; instance_variable_set "@#{k}", v }
     @output_directory = Pathname.new(attrs["output_directory"]) if attrs["output_directory"]
+    @private_key = Pathname.new(attrs["private_key"]) if attrs["private_key"]
   end
 
   ##
@@ -81,6 +82,7 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
       b[:file] = @output_directory + version_dir + first_artifact.getName
       FileUtils.mkdir_p @output_directory + version_dir
       FileUtils.ln_sf first_artifact.getAbsolutePath, b[:file]
+      b[:signature] = `openssl dgst -sha1 -binary < "#{first_artifact.getAbsolutePath}" | openssl dgst -dss1 -sign "#{@private_key}" | openssl enc -base64`
       b[:url] = "#{@url_base}/#{version_dir}/#{first_artifact.getName}"
     end
 
@@ -106,6 +108,7 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
             rss.enclosure("url"    => b[:url],
                           "type"   => MIME::Types.type_for(b[:file].to_s).last || "application/octet-stream",
                           "length" => File.size(b[:file]),
+                          "sparkle:dsaSignature" => b[:signature],
                           "sparkle:version" => b[:build].number)
             rss.pubDate   File.ctime(b[:file])
             rss.dc(:date, File.ctime(b[:file]).iso8601)

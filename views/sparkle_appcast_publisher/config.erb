@@ -5,6 +5,12 @@
 
     <table style="margin-left: 30px;">
       <%
+         f.entry :title => 'DSA Private Key',
+                 :field => :private_key,
+                 :description => 'Path to the DSA private key file' do
+           f.textbox :clazz => 'required', :default => ''
+         end
+
          f.entry :title => 'Output Directory',
                  :field => :output_directory,
                  :description => 'Where to build the symlink tree and appcast rss file.' do
