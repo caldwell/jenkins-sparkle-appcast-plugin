@@ -11,13 +11,9 @@ require 'mime/types'
 def get_builds(latest_build)
     b=latest_build
     builds=[]
-    c=[]
     begin
-      c += b.getChangeSet.getItems.map { |c| c.getMsg }
-      if b.getResult.to_s == 'SUCCESS'
-        builds.push({ :build => b, :changes => c})
-        c=[]
-      end
+      builds.push({ :build => b, :changes => []}) if b.getResult.to_s == 'SUCCESS'
+      builds.last[:changes] += b.getChangeSet.getItems.map { |c| c.getMsg } if builds.last
     end while (b=b.getPreviousBuild) #getPreviousSuccessfulBuild
   builds
 end
