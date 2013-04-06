@@ -66,7 +66,7 @@ It's probably easier to test with a local server:
 
     jpi server
 
-That launches a server which you can connect to with [http://localhost:8080] [lh]
+That launches a server which you can connect to at [http://localhost:8080] [lh]
 
 [lh]: http://localhost:8080
 
@@ -78,5 +78,4 @@ Copyright © 2013 David Caldwell <david@porkrind.org>
 License
 -------
 
-This code is licensed under the MIT License. See the file LICENSE for more
-information.
+This code is licensed under the MIT License. See the file LICENSE for details.
