@@ -121,7 +121,8 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
     # commmit message).  Change the '' to nil to make it just remove them
     # completely.
     changes_str = changes.map {|c| c+"\n" }.join('')
-      .split("\n").map { |line| @message_filter == '' || line.start_with?(@message_filter) ? line[@message_filter.length..-1] : '' }.compact
+      .split("\n").map { |line| !@message_filter ? line :
+                                line.start_with?(@message_filter) ? line[@message_filter.length..-1] : '' }.compact
       .join("\n")
 
     return changes_str unless @use_markdown
