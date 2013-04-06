@@ -1,7 +1,7 @@
 Jenkins::Plugin::Specification.new do |plugin|
   plugin.name = "sparkle-appcast"
   plugin.display_name = "Sparkle Appcast (RSS) Plugin"
-  plugin.version = '0.9.0'
+  plugin.version = '0.9.1'
   plugin.description = 'Publishes an Appcast (RSS) Feed for use with the Sparkle auto-update library'
 
   # You should create a wiki-page for your plugin when you publish it, see
