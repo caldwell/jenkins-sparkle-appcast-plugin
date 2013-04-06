@@ -27,7 +27,7 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
 
   display_name "Publish Sparkle Appcast (RSS)"
 
-  attr_reader :url_base, :output_directory, :author, :title, :description, :rss_filename, :message_filter
+  attr_reader :url_base, :output_directory, :author, :title, :description, :rss_filename, :message_filter, :use_markdown
 
   # Invoked with the form parameters when this extension point
   # is created from a configuration screen.
@@ -120,9 +120,18 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
     # consciously leave blank lines before or after everything in your
     # commmit message).  Change the '' to nil to make it just remove them
     # completely.
-    changes.map {|c| c+"\n" }.join('')
+    changes_str = changes.map {|c| c+"\n" }.join('')
       .split("\n").map { |line| @message_filter == '' || line.start_with?(@message_filter) ? line[@message_filter.length..-1] : '' }.compact
       .join("\n")
+
+    return changes_str unless @use_markdown
+
+    # Not sure this is right. Can I get to the jenkins plugin that's already
+    # been inited? This one doesn't seem to care that I pass in empty arrays...
+    pd = org.jenkins_ci.plugins.pegdown_formatter.PegDownFormatter.new([],[])
+    out = java.io.StringWriter.new
+    pd.translate(changes_str, out)
+    out.toString
   end
 
 end

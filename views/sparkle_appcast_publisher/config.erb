@@ -47,6 +47,12 @@
            f.textbox :clazz => 'optional', :default => '> '
          end
 
+         f.entry :title => 'Use Pegdown (Markdown)',
+                 :field => :use_markdown,
+                 :description => 'Treat (filtered) SCM message as Pegdown (Markdown).' do
+           f.checkbox :clazz => 'required', :default => 'checked'
+         end
+
       %>
     </table>
 

@@ -21,6 +21,5 @@ Jenkins::Plugin::Specification.new do |plugin|
   # This is a required dependency for every ruby plugin.
   plugin.depends_on 'ruby-runtime', '0.10'
 
-  # This is a sample dependency for a Jenkins plugin, 'git'.
-  #plugin.depends_on 'git', '1.1.11'
+  plugin.depends_on 'pegdown-formatter', '1.3'
 end
