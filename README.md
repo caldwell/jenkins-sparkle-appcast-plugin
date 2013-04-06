@@ -12,6 +12,11 @@ Once it's set up, all you have to do is push (or check-in) your code to the
 repository that Jenkins is watching and the new version of your software
 will be automatically pushed out to all your users.
 
+This plugin also supports creating a changelog for each build by pulling out
+part of (or all of) the text of the commit messages that go into said
+build. The changelog can also be rendered as markdown so you don't have to
+put HTML into your commit messages.
+
 [sp]: http://sparkle.andymatuschak.org/
 
 How to Build, Install, and Test
