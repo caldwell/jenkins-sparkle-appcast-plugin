@@ -18,11 +18,6 @@ def get_builds(latest_build)
   builds
 end
 
-# One line per change entry right now. Consider moving to markdown.
-def format_changelog(changes)
-  changes.map {|c| c+"\n" }.join('')
-end
-
 # The mime-types gem doesn't have x-apple-diskimage by default. Consider giving them a pull request.
 MIME::Types.add(MIME::Type.from_hash('Content-Type' => 'application/x-apple-diskimage',
                                      'Content-Transfer-Encoding' => '8bit',
@@ -32,7 +27,7 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
 
   display_name "Publish Sparkle Appcast (RSS)"
 
-  attr_reader :url_base, :output_directory, :author, :title, :description, :rss_filename
+  attr_reader :url_base, :output_directory, :author, :title, :description, :rss_filename, :message_filter
 
   # Invoked with the form parameters when this extension point
   # is created from a configuration screen.
@@ -114,6 +109,20 @@ class Sparkle_appcastPublisher < Jenkins::Tasks::Publisher
     listener.info "Writing Appcast file \"#{@output_directory + @rss_filename}\"..."
     File.open(@output_directory + @rss_filename, "w") { |f| f.write(rss_s) }
 
+  end
+
+  def format_changelog(changes)
+    # Stick all changelog messages together (adding newlines since the
+    # message may not have one).  Then filter through them line by line
+    # looking for lines that match the message_filter. The mesage filter
+    # leaves blank lines around for the lines that don't match. This is so
+    # the markdown conversion works better (otherwise you have to
+    # consciously leave blank lines before or after everything in your
+    # commmit message).  Change the '' to nil to make it just remove them
+    # completely.
+    changes.map {|c| c+"\n" }.join('')
+      .split("\n").map { |line| @message_filter == '' || line.start_with?(@message_filter) ? line[@message_filter.length..-1] : '' }.compact
+      .join("\n")
   end
 
 end

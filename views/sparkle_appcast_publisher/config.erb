@@ -41,6 +41,12 @@
            f.textbox :clazz => 'optional', :default => ''
          end
 
+         f.entry :title => 'SCM Message Filter',
+                 :field => :message_filter,
+                 :description => 'Only show commit message lines that start with this prefix in the Appcast changelog (if left blank it will show all lines). The prefix will be stripped from each line that is matched.' do
+           f.textbox :clazz => 'optional', :default => '> '
+         end
+
       %>
     </table>
 
